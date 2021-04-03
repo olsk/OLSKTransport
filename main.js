@@ -15,6 +15,22 @@ const mod = {
 		};
 	},
 
+	_AlertIfNotValid (text, params) {
+		if (!text.trim()) {
+			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText'));
+		}
+
+		if (!text.startsWith('{') || !text.endsWith('}')) {
+			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
+		}
+
+		try {
+			return params.OLSKTransferDispatchImportJSON(JSON.parse(text));
+		} catch {
+			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
+		}
+	},
+
 	OLSKTransferLauncherItemImportJSON (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -32,8 +48,6 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		const _this = this;
-
 		return {
 			LCHRecipeSignature: 'OLSKTransferLauncherItemImportJSON',
 			LCHRecipeName: params.OLSKLocalized('OLSKTransferLauncherItemImportJSONText'),
@@ -42,19 +56,7 @@ const mod = {
 					accept: '.json',
 				});
 
-				if (!text.trim()) {
-					return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText'));
-				}
-
-				if (!text.startsWith('{') || !text.endsWith('}')) {
-					return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
-				}
-
-				try {
-					return params.OLSKTransferDispatchImportJSON(JSON.parse(text));
-				} catch {
-					return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
-				}
+				return mod._AlertIfNotValid(text, params);
 			},
 		};
 	},
@@ -71,8 +73,6 @@ const mod = {
 		if (typeof params.OLSKTransferDispatchExportInput !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
-
-		const _this = this;
 
 		return {
 			LCHRecipeSignature: 'OLSKTransferLauncherItemExportJSON',
@@ -103,7 +103,7 @@ const mod = {
 		return {
 			LCHRecipeName: 'OLSKTransferLauncherFakeItemImportSerialized',
 			LCHRecipeCallback () {
-				return params.OLSKTransferDispatchImportJSON(params.ParamWindow.prompt());
+				return mod._AlertIfNotValid(params.ParamWindow.prompt(), params);
 			},
 		};
 	},

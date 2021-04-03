@@ -1,4 +1,9 @@
 {
   "name": "OLSKTransfer",
-  "main": "main.js"
+  "main": "main.js",
+  "dependencies": {
+    "OLSKInternational": "olsk/OLSKInternational",
+    "OLSKString": "olsk/OLSKString",
+    "launchlet": "latest"
+  }
 }

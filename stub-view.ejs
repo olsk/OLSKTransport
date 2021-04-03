@@ -1,0 +1,21 @@
+<%
+locals.OLSKPageAssets = [
+	'/node_modules/launchlet/__compiled/launchlet.css',
+	'/node_modules/launchlet/__compiled/launchlet.js',
+];
+
+locals._OLSKPageAssetFolder = 'node_modules';
+locals.OLSKPagePublicLocalizedStringKeys = OLSKLocalizedStringKeys();
+%>
+
+<script type="text/javascript">
+	window.exports = {};
+</script>
+<script type="text/javascript" src="/main.js"></script>
+
+<script src="/<%= OLSKSharedPageControllerSlug %>/ui-behaviour.js"></script>
+
+<button class="OLSKAppToolbarLauncherButton" onclick="OLSKTransferBehaviour.InterfaceLauncherButtonDidClick()"></button>
+
+</body>
+</html>

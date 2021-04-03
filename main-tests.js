@@ -321,18 +321,8 @@ describe('OLSKTransferLauncherFakeItemImportSerialized', function test_OLSKTrans
 
 	context('LCHRecipeCallback', function () {
 
-		it('calls ParamWindow.prompt', function () {
-			deepEqual(uCapture(function (prompt) {
-				_OLSKTransferLauncherFakeItemImportSerialized({
-					ParamWindow: uWindow({
-						 prompt,
-					}),
-				}).LCHRecipeCallback();
-			}), []);
-		});
-
 		it('calls OLSKTransferDispatchImportJSON', function () {
-			const prompt = Math.random().toString();
+			const prompt = JSON.stringify({});
 
 			deepEqual(_OLSKTransferLauncherFakeItemImportSerialized({
 				ParamWindow: uWindow({
@@ -343,7 +333,7 @@ describe('OLSKTransferLauncherFakeItemImportSerialized', function test_OLSKTrans
 				OLSKTransferDispatchImportJSON: (function () {
 					return [...arguments];
 				}),
-			}).LCHRecipeCallback(), [prompt]);
+			}).LCHRecipeCallback(), [JSON.parse(prompt)]);
 		});
 
 	});

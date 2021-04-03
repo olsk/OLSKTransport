@@ -6,11 +6,23 @@ const mod = {
 			OLSKRouteMethod: 'get',
 			OLSKRouteSignature: 'OLSKTransferStubRoute',
 			OLSKRouteFunction(req, res, next) {
-				return res.render(require('path').join(__dirname, 'stub-view'));
+				return res.OLSKExpressLayoutRender(require('path').join(__dirname, 'stub-view'));
 			},
+			OLSKRouteLanguageCodes: ['en', 'fr', 'es', 'pt'],
 		}];
 	},
 
+	OLSKControllerStaticAssetFiles () {
+		return [
+			'main.js',
+		];
+	},
+
+	OLSKControllerSharedStaticAssetFolders () {
+		return [
+			'node_modules',
+		];
+	},
 
 };
 
