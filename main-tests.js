@@ -277,6 +277,29 @@ describe('OLSKTransportLauncherItemExportJSON', function test_OLSKTransportLaunc
 			})]);
 		});
 
+		it('skips OLSKTransportDispatchExportInput if inputData', async function () {
+			const inputData = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+			const ParamWindow = uWindow({
+				alert: (function () {
+					return [...arguments];
+				}),
+			});
+
+			deepEqual(await _OLSKTransportLauncherItemExportJSON({
+				ParamWindow,
+			}).LCHRecipeCallback.apply({
+				api: {
+					LCHSaveFile: (function () {
+						return [...arguments]
+					}),
+				},
+			}, [inputData]), [JSON.stringify(inputData), mod.OLSKTransportExportJSONFilename({
+				window: ParamWindow,
+			})]);
+		});
+
 	});
 
 });
@@ -404,6 +427,26 @@ describe('OLSKTransportLauncherFakeItemExportSerialized', function test_OLSKTran
 					window: ParamWindow,
 				}),
 				OLSKDownloadData: JSON.stringify(OLSKTransportDispatchExportInput),
+			})]);
+		});
+
+		it('skips OLSKTransportDispatchExportInput in inputData', async function () {
+			const inputData = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+			const ParamWindow = uWindow({
+				alert: (function () {
+					return [...arguments];
+				}),
+			});
+
+			deepEqual(await _OLSKTransportLauncherFakeItemExportSerialized({
+				ParamWindow,
+			}).LCHRecipeCallback(inputData), [JSON.stringify({
+				OLSKDownloadName: mod.OLSKTransportExportJSONFilename({
+					window: ParamWindow,
+				}),
+				OLSKDownloadData: JSON.stringify(inputData),
 			})]);
 		});
 
