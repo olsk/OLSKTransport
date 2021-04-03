@@ -149,6 +149,77 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 
 });
 
+describe('OLSKTransferLauncherItemExportJSON', function test_OLSKTransferLauncherItemExportJSON() {
+
+	const _OLSKTransferLauncherItemExportJSON = function (inputData = {}) {
+		return mod.OLSKTransferLauncherItemExportJSON(Object.assign({
+			OLSKLocalized: uLocalized,
+			OLSKTransferDispatchExportInput: (function () {}),
+		}, inputData))
+	}
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKTransferLauncherItemExportJSON(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if OLSKLocalized not function', function () {
+		throws(function () {
+			_OLSKTransferLauncherItemExportJSON({
+				OLSKLocalized: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if OLSKTransferDispatchExportInput not function', function () {
+		throws(function () {
+			_OLSKTransferLauncherItemExportJSON({
+				OLSKTransferDispatchExportInput: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = _OLSKTransferLauncherItemExportJSON();
+
+		deepEqual(item, {
+			LCHRecipeSignature: 'OLSKTransferLauncherItemExportJSON',
+			LCHRecipeName: uLocalized('OLSKTransferLauncherItemExportJSONText'),
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls LCHSaveFile', async function () {
+			const OLSKTransferDispatchExportInput = Math.random().toString();
+			const ParamWindow = uWindow({
+				alert: (function () {
+					return [...arguments];
+				}),
+			});
+
+			deepEqual(await _OLSKTransferLauncherItemExportJSON({
+				OLSKTransferDispatchExportInput: (function () {
+					return OLSKTransferDispatchExportInput;
+				}),
+				ParamWindow,
+			}).LCHRecipeCallback.apply({
+				api: {
+					LCHSaveFile: (function () {
+						return [...arguments]
+					}),
+				},
+			}), [OLSKTransferDispatchExportInput, mod.OLSKTransferExportJSONFilename({
+				window: ParamWindow,
+			})]);
+		});
+
+	});
+
+});
+
 describe('OLSKTransferLauncherFakeItemImportSerialized', function test_OLSKTransferLauncherFakeItemImportSerialized() {
 
 	const _OLSKTransferLauncherFakeItemImportSerialized = function (inputData = {}) {
