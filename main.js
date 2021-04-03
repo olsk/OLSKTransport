@@ -4,8 +4,8 @@ const mod = {
 		return (debug.window || window).location.hostname + '-' + (debug.Date || Date).now();
 	},
 
-	OLSKTransferExportJSONFilename () {
-		return this.OLSKTransferExportBasename() + '.json';
+	OLSKTransferExportJSONFilename (debug = {}) {
+		return this.OLSKTransferExportBasename(debug) + '.json';
 	},
 
 	OLSKTransferLauncherFakeItemProxy () {
@@ -34,6 +34,34 @@ const mod = {
 			LCHRecipeName: 'OLSKTransferLauncherFakeItemImportSerialized',
 			LCHRecipeCallback () {
 				return params.OLSKTransferDispatchImportJSON(params.ParamWindow.prompt());
+			},
+		};
+	},
+
+	OLSKTransferLauncherFakeItemExportSerialized (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (!params.ParamWindow.location) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof params.OLSKTransferDispatchExportInput !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const _this = this;
+
+		return {
+			LCHRecipeName: 'OLSKTransferLauncherFakeItemExportSerialized',
+			async LCHRecipeCallback () {
+				return params.ParamWindow.alert(JSON.stringify({
+					OLSKDownloadName: mod.OLSKTransferExportJSONFilename({
+						window: params.ParamWindow,
+					}),
+					OLSKDownloadData: await params.OLSKTransferDispatchExportInput(),
+				}));
 			},
 		};
 	},

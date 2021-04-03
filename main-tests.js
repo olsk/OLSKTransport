@@ -3,11 +3,13 @@ const { throws, rejects, deepEqual } = require('assert');
 const mod = require('./main.js');
 
 const uWindow = function (inputData = {}) {
+	const hostname = Math.random().toString();
 	return Object.assign({
 		prompt: (function () {}),
 		alert: (function () {}),
 		location: Object.assign({
 			reload: (function () {}),
+			hostname,
 		}, inputData),
 	}, inputData);
 };
@@ -135,3 +137,69 @@ describe('OLSKTransferLauncherFakeItemImportSerialized', function test_OLSKTrans
 
 });
 
+describe('OLSKTransferLauncherFakeItemExportSerialized', function test_OLSKTransferLauncherFakeItemExportSerialized() {
+
+	const _OLSKTransferLauncherFakeItemExportSerialized = function (inputData = {}) {
+		return mod.OLSKTransferLauncherFakeItemExportSerialized(Object.assign({
+			ParamWindow: uWindow(),
+			OLSKTransferDispatchExportInput: (function () {}),
+		}, inputData))
+	}
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKTransferLauncherFakeItemExportSerialized(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamWindow not window', function () {
+		throws(function () {
+			_OLSKTransferLauncherFakeItemExportSerialized({
+				ParamWindow: {},
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if OLSKTransferDispatchExportInput not function', function () {
+		throws(function () {
+			_OLSKTransferLauncherFakeItemExportSerialized({
+				OLSKTransferDispatchExportInput: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = _OLSKTransferLauncherFakeItemExportSerialized();
+
+		deepEqual(item, {
+			LCHRecipeName: 'OLSKTransferLauncherFakeItemExportSerialized',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls OLSKTransferDispatchExportInput', async function () {
+			const OLSKTransferDispatchExportInput = Math.random().toString();
+			const ParamWindow = uWindow({
+				alert: (function () {
+					return [...arguments];
+				}),
+			});
+
+			deepEqual(await _OLSKTransferLauncherFakeItemExportSerialized({
+				OLSKTransferDispatchExportInput: (async function () {
+					return OLSKTransferDispatchExportInput;
+				}),
+				ParamWindow,
+			}).LCHRecipeCallback(), [JSON.stringify({
+				OLSKDownloadName: mod.OLSKTransferExportJSONFilename({
+					window: ParamWindow,
+				}),
+				OLSKDownloadData: OLSKTransferDispatchExportInput,
+			})]);
+		});
+
+	});
+
+});
