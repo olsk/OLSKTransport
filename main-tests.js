@@ -400,6 +400,7 @@ describe('OLSKTransportLauncherFakeItemExportSerialized', function test_OLSKTran
 		const item = _OLSKTransportLauncherFakeItemExportSerialized();
 
 		deepEqual(item, {
+			LCHRecipeSignature: 'OLSKTransportLauncherFakeItemExportSerialized',
 			LCHRecipeName: 'OLSKTransportLauncherFakeItemExportSerialized',
 			LCHRecipeCallback: item.LCHRecipeCallback,
 		});

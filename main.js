@@ -124,6 +124,7 @@ const mod = {
 		const _this = this;
 
 		return {
+			LCHRecipeSignature: 'OLSKTransportLauncherFakeItemExportSerialized',
 			LCHRecipeName: 'OLSKTransportLauncherFakeItemExportSerialized',
 			async LCHRecipeCallback (inputData) {
 				return params.ParamWindow.alert(JSON.stringify({
