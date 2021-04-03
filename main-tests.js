@@ -203,3 +203,52 @@ describe('OLSKTransferLauncherFakeItemExportSerialized', function test_OLSKTrans
 	});
 
 });
+
+describe('OLSKTransferRecipes', function test_OLSKTransferRecipes() {
+
+	const _OLSKTransferRecipes = function (inputData = {}) {
+		return mod.OLSKTransferRecipes(Object.assign({
+			ParamWindow: uWindow(),
+			OLSKTransferDispatchImportJSON: (function () {}),
+			OLSKTransferDispatchExportInput: (function () {}),
+			ParamSpecUI: false,
+		}, inputData))
+	};
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.OLSKTransferRecipes(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamSpecUI not boolean', function () {
+		throws(function () {
+			_OLSKTransferRecipes({
+				ParamSpecUI: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('includes production recipes', function () {
+		deepEqual(_OLSKTransferRecipes().map(function (e) {
+			return e.LCHRecipeSignature || e.LCHRecipeName;
+		}), Object.keys(mod).filter(function (e) {
+			return e.match(/Launcher/) && !e.match(/Fake/);
+		}));
+	});
+
+	context('ParamSpecUI', function () {
+
+		it('includes all recipes', function () {
+			deepEqual(_OLSKTransferRecipes({
+				ParamSpecUI: true,
+			}).map(function (e) {
+				return e.LCHRecipeSignature || e.LCHRecipeName;
+			}), Object.keys(mod).filter(function (e) {
+				return e.match(/Launcher/);
+			}));
+		});
+	
+	});
+
+});
