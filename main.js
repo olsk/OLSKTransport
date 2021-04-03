@@ -78,7 +78,7 @@ const mod = {
 			LCHRecipeSignature: 'OLSKTransportLauncherItemExportJSON',
 			LCHRecipeName: params.OLSKLocalized('OLSKTransportLauncherItemExportJSONText'),
 			async LCHRecipeCallback () {
-				return this.api.LCHSaveFile(await params.OLSKTransportDispatchExportInput(), mod.OLSKTransportExportJSONFilename({
+				return this.api.LCHSaveFile(JSON.stringify(await params.OLSKTransportDispatchExportInput()), mod.OLSKTransportExportJSONFilename({
 					window: params.ParamWindow || window,
 				}));
 			},
@@ -130,7 +130,7 @@ const mod = {
 					OLSKDownloadName: mod.OLSKTransportExportJSONFilename({
 						window: params.ParamWindow,
 					}),
-					OLSKDownloadData: await params.OLSKTransportDispatchExportInput(),
+					OLSKDownloadData: JSON.stringify(await params.OLSKTransportDispatchExportInput()),
 				}));
 			},
 		};

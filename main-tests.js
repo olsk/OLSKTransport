@@ -252,7 +252,9 @@ describe('OLSKTransportLauncherItemExportJSON', function test_OLSKTransportLaunc
 	context('LCHRecipeCallback', function () {
 
 		it('calls LCHSaveFile', async function () {
-			const OLSKTransportDispatchExportInput = Math.random().toString();
+			const OLSKTransportDispatchExportInput = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
 			const ParamWindow = uWindow({
 				alert: (function () {
 					return [...arguments];
@@ -270,7 +272,7 @@ describe('OLSKTransportLauncherItemExportJSON', function test_OLSKTransportLaunc
 						return [...arguments]
 					}),
 				},
-			}), [OLSKTransportDispatchExportInput, mod.OLSKTransportExportJSONFilename({
+			}), [JSON.stringify(OLSKTransportDispatchExportInput), mod.OLSKTransportExportJSONFilename({
 				window: ParamWindow,
 			})]);
 		});
@@ -383,7 +385,9 @@ describe('OLSKTransportLauncherFakeItemExportSerialized', function test_OLSKTran
 	context('LCHRecipeCallback', function () {
 
 		it('calls OLSKTransportDispatchExportInput', async function () {
-			const OLSKTransportDispatchExportInput = Math.random().toString();
+			const OLSKTransportDispatchExportInput = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
 			const ParamWindow = uWindow({
 				alert: (function () {
 					return [...arguments];
@@ -399,7 +403,7 @@ describe('OLSKTransportLauncherFakeItemExportSerialized', function test_OLSKTran
 				OLSKDownloadName: mod.OLSKTransportExportJSONFilename({
 					window: ParamWindow,
 				}),
-				OLSKDownloadData: OLSKTransportDispatchExportInput,
+				OLSKDownloadData: JSON.stringify(OLSKTransportDispatchExportInput),
 			})]);
 		});
 
