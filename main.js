@@ -4,6 +4,10 @@ const mod = {
 		return (debug.window || window).location.hostname + '-' + (debug.Date || Date).now();
 	},
 
+	OLSKTransferExportJSONFilename () {
+		return this.OLSKTransferExportBasename() + '.json';
+	},
+
 	OLSKTransferLauncherFakeItemProxy () {
 		return {
 			LCHRecipeName: 'OLSKTransferLauncherFakeItemProxy',

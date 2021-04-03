@@ -14,7 +14,7 @@ const uWindow = function (inputData = {}) {
 
 describe('OLSKTransferExportBasename', function test_OLSKTransferExportBasename() {
 
-	it('returns object', function () {
+	it('returns string', function () {
 		const hostname = Math.random().toString();
 		const now = Math.random().toString();
 		deepEqual(mod.OLSKTransferExportBasename({
@@ -27,6 +27,19 @@ describe('OLSKTransferExportBasename', function test_OLSKTransferExportBasename(
 				}),
 			},
 		}), hostname + '-' + now);
+	});
+
+});
+
+describe('OLSKTransferExportJSONFilename', function test_OLSKTransferExportJSONFilename() {
+
+	it('returns string', function () {
+		const item = Math.random().toString();
+		deepEqual(Object.assign(mod, {
+			OLSKTransferExportBasename: (function () {
+				return item;
+			}),
+		}).OLSKTransferExportJSONFilename(), item + '.json');
 	});
 
 });
