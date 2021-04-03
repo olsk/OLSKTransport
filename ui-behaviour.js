@@ -5,11 +5,11 @@
 
 		InterfaceLauncherButtonDidClick () {
 			window.Launchlet.LCHSingletonCreate({
-				LCHOptionRecipes: exports.OLSKTransferRecipes({
+				LCHOptionRecipes: exports.OLSKTransportRecipes({
 					ParamWindow: window,
 					OLSKLocalized: window.OLSKLocalized,
-					OLSKTransferDispatchImportJSON: (function () {}),
-					OLSKTransferDispatchExportInput: (function () {
+					OLSKTransportDispatchImportJSON: (function () {}),
+					OLSKTransportDispatchExportInput: (function () {
 						return Math.random().toString();
 					}),
 					ParamSpecUI: true,
@@ -19,5 +19,5 @@
 
 	};
 
-	window.OLSKTransferBehaviour = mod;
+	window.OLSKTransportBehaviour = mod;
 })();

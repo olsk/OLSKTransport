@@ -1,5 +1,5 @@
 {
-  "name": "OLSKTransfer",
+  "name": "OLSKTransport",
   "main": "main.js",
   "dependencies": {
     "OLSKInternational": "olsk/OLSKInternational",

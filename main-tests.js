@@ -18,12 +18,12 @@ const uLocalized = function (inputData) {
 	return inputData + 'LOCALIZED';
 };
 
-describe('OLSKTransferExportBasename', function test_OLSKTransferExportBasename() {
+describe('OLSKTransportExportBasename', function test_OLSKTransportExportBasename() {
 
 	it('returns string', function () {
 		const hostname = Math.random().toString();
 		const now = Math.random().toString();
-		deepEqual(mod.OLSKTransferExportBasename({
+		deepEqual(mod.OLSKTransportExportBasename({
 			window: uWindow({
 				hostname,
 			}),
@@ -37,25 +37,25 @@ describe('OLSKTransferExportBasename', function test_OLSKTransferExportBasename(
 
 });
 
-describe('OLSKTransferExportJSONFilename', function test_OLSKTransferExportJSONFilename() {
+describe('OLSKTransportExportJSONFilename', function test_OLSKTransportExportJSONFilename() {
 
 	it('returns string', function () {
 		const item = Math.random().toString();
 		deepEqual(Object.assign(Object.assign({}, mod), {
-			OLSKTransferExportBasename: (function () {
+			OLSKTransportExportBasename: (function () {
 				return item;
 			}),
-		}).OLSKTransferExportJSONFilename(), item + '.json');
+		}).OLSKTransportExportJSONFilename(), item + '.json');
 	});
 
 });
 
-describe('OLSKTransferLauncherFakeItemProxy', function test_OLSKTransferLauncherFakeItemProxy() {
+describe('OLSKTransportLauncherFakeItemProxy', function test_OLSKTransportLauncherFakeItemProxy() {
 
 	it('returns object', function () {
-		const item = mod.OLSKTransferLauncherFakeItemProxy();
+		const item = mod.OLSKTransportLauncherFakeItemProxy();
 		deepEqual(item, {
-			LCHRecipeName: 'OLSKTransferLauncherFakeItemProxy',
+			LCHRecipeName: 'OLSKTransportLauncherFakeItemProxy',
 			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
 	});
@@ -63,32 +63,32 @@ describe('OLSKTransferLauncherFakeItemProxy', function test_OLSKTransferLauncher
 	context('LCHRecipeCallback', function () {
 		
 		it('returns undefined', function () {
-			deepEqual(mod.OLSKTransferLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
+			deepEqual(mod.OLSKTransportLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
 		});
 
 	});
 
 });
 
-describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLauncherItemImportJSON() {
+describe('OLSKTransportLauncherItemImportJSON', function test_OLSKTransportLauncherItemImportJSON() {
 
-	const _OLSKTransferLauncherItemImportJSON = function (inputData = {}) {
-		return mod.OLSKTransferLauncherItemImportJSON(Object.assign({
+	const _OLSKTransportLauncherItemImportJSON = function (inputData = {}) {
+		return mod.OLSKTransportLauncherItemImportJSON(Object.assign({
 			OLSKLocalized: uLocalized,
 			ParamWindow: uWindow(),
-			OLSKTransferDispatchImportJSON: (function () {}),
+			OLSKTransportDispatchImportJSON: (function () {}),
 		}, inputData))
 	}
 
 	it('throws if not object', function () {
 		throws(function () {
-			mod.OLSKTransferLauncherItemImportJSON(null);
+			mod.OLSKTransportLauncherItemImportJSON(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if OLSKLocalized not function', function () {
 		throws(function () {
-			_OLSKTransferLauncherItemImportJSON({
+			_OLSKTransportLauncherItemImportJSON({
 				OLSKLocalized: null,
 			});
 		}, /OLSKErrorInputNotValid/);
@@ -96,26 +96,26 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 
 	it('throws if ParamWindow not window', function () {
 		throws(function () {
-			_OLSKTransferLauncherItemImportJSON({
+			_OLSKTransportLauncherItemImportJSON({
 				ParamWindow: {},
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if OLSKTransferDispatchImportJSON not function', function () {
+	it('throws if OLSKTransportDispatchImportJSON not function', function () {
 		throws(function () {
-			_OLSKTransferLauncherItemImportJSON({
-				OLSKTransferDispatchImportJSON: null,
+			_OLSKTransportLauncherItemImportJSON({
+				OLSKTransportDispatchImportJSON: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		const item = _OLSKTransferLauncherItemImportJSON();
+		const item = _OLSKTransportLauncherItemImportJSON();
 
 		deepEqual(item, {
-			LCHRecipeSignature: 'OLSKTransferLauncherItemImportJSON',
-			LCHRecipeName: uLocalized('OLSKTransferLauncherItemImportJSONText'),
+			LCHRecipeSignature: 'OLSKTransportLauncherItemImportJSON',
+			LCHRecipeName: uLocalized('OLSKTransportLauncherItemImportJSONText'),
 			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
 	});
@@ -124,8 +124,8 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 
 		it('calls LCHReadTextFile', function () {
 			deepEqual(uCapture(function (LCHReadTextFile) {
-				_OLSKTransferLauncherItemImportJSON({
-					OLSKTransferDispatchImportJSON: (function () {
+				_OLSKTransportLauncherItemImportJSON({
+					OLSKTransportDispatchImportJSON: (function () {
 						return [...arguments];
 					}),
 				}).LCHRecipeCallback.apply({
@@ -139,7 +139,7 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 		});
 
 		it('calls alert if empty', async function () {
-			deepEqual(await _OLSKTransferLauncherItemImportJSON({
+			deepEqual(await _OLSKTransportLauncherItemImportJSON({
 				ParamWindow: uWindow({
 					alert: (function () {
 						return [...arguments];
@@ -151,11 +151,11 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 						return ' ';
 					}),
 				},
-			}), [uLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText')]);
+			}), [uLocalized('OLSKTransportLauncherItemImportJSONErrorNotFilledAlertText')]);
 		});
 
 		it('calls alert if parse error', async function () {
-			deepEqual(await _OLSKTransferLauncherItemImportJSON({
+			deepEqual(await _OLSKTransportLauncherItemImportJSON({
 				ParamWindow: uWindow({
 					alert: (function () {
 						return [...arguments];
@@ -167,11 +167,11 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 						return 'alfa';
 					}),
 				},
-			}), [uLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText')]);
+			}), [uLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText')]);
 		});
 
 		it('calls alert if not object error', async function () {
-			deepEqual(await _OLSKTransferLauncherItemImportJSON({
+			deepEqual(await _OLSKTransportLauncherItemImportJSON({
 				ParamWindow: uWindow({
 					alert: (function () {
 						return [...arguments];
@@ -183,16 +183,16 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 						return '[]';
 					}),
 				},
-			}), [uLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText')]);
+			}), [uLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText')]);
 		});
 
-		it('calls OLSKTransferDispatchImportJSON', async function () {
+		it('calls OLSKTransportDispatchImportJSON', async function () {
 			const item = JSON.stringify({
 				[Math.random().toString()]: Math.random().toString(),
 			});
 
-			deepEqual(await _OLSKTransferLauncherItemImportJSON({
-				OLSKTransferDispatchImportJSON: (function () {
+			deepEqual(await _OLSKTransportLauncherItemImportJSON({
+				OLSKTransportDispatchImportJSON: (function () {
 					return [...arguments];
 				}),
 			}).LCHRecipeCallback.apply({
@@ -208,43 +208,43 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 
 });
 
-describe('OLSKTransferLauncherItemExportJSON', function test_OLSKTransferLauncherItemExportJSON() {
+describe('OLSKTransportLauncherItemExportJSON', function test_OLSKTransportLauncherItemExportJSON() {
 
-	const _OLSKTransferLauncherItemExportJSON = function (inputData = {}) {
-		return mod.OLSKTransferLauncherItemExportJSON(Object.assign({
+	const _OLSKTransportLauncherItemExportJSON = function (inputData = {}) {
+		return mod.OLSKTransportLauncherItemExportJSON(Object.assign({
 			OLSKLocalized: uLocalized,
-			OLSKTransferDispatchExportInput: (function () {}),
+			OLSKTransportDispatchExportInput: (function () {}),
 		}, inputData))
 	}
 
 	it('throws if not object', function () {
 		throws(function () {
-			mod.OLSKTransferLauncherItemExportJSON(null);
+			mod.OLSKTransportLauncherItemExportJSON(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if OLSKLocalized not function', function () {
 		throws(function () {
-			_OLSKTransferLauncherItemExportJSON({
+			_OLSKTransportLauncherItemExportJSON({
 				OLSKLocalized: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if OLSKTransferDispatchExportInput not function', function () {
+	it('throws if OLSKTransportDispatchExportInput not function', function () {
 		throws(function () {
-			_OLSKTransferLauncherItemExportJSON({
-				OLSKTransferDispatchExportInput: null,
+			_OLSKTransportLauncherItemExportJSON({
+				OLSKTransportDispatchExportInput: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		const item = _OLSKTransferLauncherItemExportJSON();
+		const item = _OLSKTransportLauncherItemExportJSON();
 
 		deepEqual(item, {
-			LCHRecipeSignature: 'OLSKTransferLauncherItemExportJSON',
-			LCHRecipeName: uLocalized('OLSKTransferLauncherItemExportJSONText'),
+			LCHRecipeSignature: 'OLSKTransportLauncherItemExportJSON',
+			LCHRecipeName: uLocalized('OLSKTransportLauncherItemExportJSONText'),
 			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
 	});
@@ -252,16 +252,16 @@ describe('OLSKTransferLauncherItemExportJSON', function test_OLSKTransferLaunche
 	context('LCHRecipeCallback', function () {
 
 		it('calls LCHSaveFile', async function () {
-			const OLSKTransferDispatchExportInput = Math.random().toString();
+			const OLSKTransportDispatchExportInput = Math.random().toString();
 			const ParamWindow = uWindow({
 				alert: (function () {
 					return [...arguments];
 				}),
 			});
 
-			deepEqual(await _OLSKTransferLauncherItemExportJSON({
-				OLSKTransferDispatchExportInput: (function () {
-					return OLSKTransferDispatchExportInput;
+			deepEqual(await _OLSKTransportLauncherItemExportJSON({
+				OLSKTransportDispatchExportInput: (function () {
+					return OLSKTransportDispatchExportInput;
 				}),
 				ParamWindow,
 			}).LCHRecipeCallback.apply({
@@ -270,7 +270,7 @@ describe('OLSKTransferLauncherItemExportJSON', function test_OLSKTransferLaunche
 						return [...arguments]
 					}),
 				},
-			}), [OLSKTransferDispatchExportInput, mod.OLSKTransferExportJSONFilename({
+			}), [OLSKTransportDispatchExportInput, mod.OLSKTransportExportJSONFilename({
 				window: ParamWindow,
 			})]);
 		});
@@ -279,58 +279,58 @@ describe('OLSKTransferLauncherItemExportJSON', function test_OLSKTransferLaunche
 
 });
 
-describe('OLSKTransferLauncherFakeItemImportSerialized', function test_OLSKTransferLauncherFakeItemImportSerialized() {
+describe('OLSKTransportLauncherFakeItemImportSerialized', function test_OLSKTransportLauncherFakeItemImportSerialized() {
 
-	const _OLSKTransferLauncherFakeItemImportSerialized = function (inputData = {}) {
-		return mod.OLSKTransferLauncherFakeItemImportSerialized(Object.assign({
+	const _OLSKTransportLauncherFakeItemImportSerialized = function (inputData = {}) {
+		return mod.OLSKTransportLauncherFakeItemImportSerialized(Object.assign({
 			ParamWindow: uWindow(),
-			OLSKTransferDispatchImportJSON: (function () {}),
+			OLSKTransportDispatchImportJSON: (function () {}),
 		}, inputData))
 	}
 
 	it('throws if not object', function () {
 		throws(function () {
-			mod.OLSKTransferLauncherFakeItemImportSerialized(null);
+			mod.OLSKTransportLauncherFakeItemImportSerialized(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if ParamWindow not window', function () {
 		throws(function () {
-			_OLSKTransferLauncherFakeItemImportSerialized({
+			_OLSKTransportLauncherFakeItemImportSerialized({
 				ParamWindow: {},
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if OLSKTransferDispatchImportJSON not function', function () {
+	it('throws if OLSKTransportDispatchImportJSON not function', function () {
 		throws(function () {
-			_OLSKTransferLauncherFakeItemImportSerialized({
-				OLSKTransferDispatchImportJSON: null,
+			_OLSKTransportLauncherFakeItemImportSerialized({
+				OLSKTransportDispatchImportJSON: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		const item = _OLSKTransferLauncherFakeItemImportSerialized();
+		const item = _OLSKTransportLauncherFakeItemImportSerialized();
 
 		deepEqual(item, {
-			LCHRecipeName: 'OLSKTransferLauncherFakeItemImportSerialized',
+			LCHRecipeName: 'OLSKTransportLauncherFakeItemImportSerialized',
 			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
 	});
 
 	context('LCHRecipeCallback', function () {
 
-		it('calls OLSKTransferDispatchImportJSON', function () {
+		it('calls OLSKTransportDispatchImportJSON', function () {
 			const prompt = JSON.stringify({});
 
-			deepEqual(_OLSKTransferLauncherFakeItemImportSerialized({
+			deepEqual(_OLSKTransportLauncherFakeItemImportSerialized({
 				ParamWindow: uWindow({
 					prompt: (function () {
 						return prompt;
 					}),
 				}),
-				OLSKTransferDispatchImportJSON: (function () {
+				OLSKTransportDispatchImportJSON: (function () {
 					return [...arguments];
 				}),
 			}).LCHRecipeCallback(), [JSON.parse(prompt)]);
@@ -340,66 +340,66 @@ describe('OLSKTransferLauncherFakeItemImportSerialized', function test_OLSKTrans
 
 });
 
-describe('OLSKTransferLauncherFakeItemExportSerialized', function test_OLSKTransferLauncherFakeItemExportSerialized() {
+describe('OLSKTransportLauncherFakeItemExportSerialized', function test_OLSKTransportLauncherFakeItemExportSerialized() {
 
-	const _OLSKTransferLauncherFakeItemExportSerialized = function (inputData = {}) {
-		return mod.OLSKTransferLauncherFakeItemExportSerialized(Object.assign({
+	const _OLSKTransportLauncherFakeItemExportSerialized = function (inputData = {}) {
+		return mod.OLSKTransportLauncherFakeItemExportSerialized(Object.assign({
 			ParamWindow: uWindow(),
-			OLSKTransferDispatchExportInput: (function () {}),
+			OLSKTransportDispatchExportInput: (function () {}),
 		}, inputData))
 	}
 
 	it('throws if not object', function () {
 		throws(function () {
-			mod.OLSKTransferLauncherFakeItemExportSerialized(null);
+			mod.OLSKTransportLauncherFakeItemExportSerialized(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if ParamWindow not window', function () {
 		throws(function () {
-			_OLSKTransferLauncherFakeItemExportSerialized({
+			_OLSKTransportLauncherFakeItemExportSerialized({
 				ParamWindow: {},
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
-	it('throws if OLSKTransferDispatchExportInput not function', function () {
+	it('throws if OLSKTransportDispatchExportInput not function', function () {
 		throws(function () {
-			_OLSKTransferLauncherFakeItemExportSerialized({
-				OLSKTransferDispatchExportInput: null,
+			_OLSKTransportLauncherFakeItemExportSerialized({
+				OLSKTransportDispatchExportInput: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		const item = _OLSKTransferLauncherFakeItemExportSerialized();
+		const item = _OLSKTransportLauncherFakeItemExportSerialized();
 
 		deepEqual(item, {
-			LCHRecipeName: 'OLSKTransferLauncherFakeItemExportSerialized',
+			LCHRecipeName: 'OLSKTransportLauncherFakeItemExportSerialized',
 			LCHRecipeCallback: item.LCHRecipeCallback,
 		});
 	});
 
 	context('LCHRecipeCallback', function () {
 
-		it('calls OLSKTransferDispatchExportInput', async function () {
-			const OLSKTransferDispatchExportInput = Math.random().toString();
+		it('calls OLSKTransportDispatchExportInput', async function () {
+			const OLSKTransportDispatchExportInput = Math.random().toString();
 			const ParamWindow = uWindow({
 				alert: (function () {
 					return [...arguments];
 				}),
 			});
 
-			deepEqual(await _OLSKTransferLauncherFakeItemExportSerialized({
-				OLSKTransferDispatchExportInput: (async function () {
-					return OLSKTransferDispatchExportInput;
+			deepEqual(await _OLSKTransportLauncherFakeItemExportSerialized({
+				OLSKTransportDispatchExportInput: (async function () {
+					return OLSKTransportDispatchExportInput;
 				}),
 				ParamWindow,
 			}).LCHRecipeCallback(), [JSON.stringify({
-				OLSKDownloadName: mod.OLSKTransferExportJSONFilename({
+				OLSKDownloadName: mod.OLSKTransportExportJSONFilename({
 					window: ParamWindow,
 				}),
-				OLSKDownloadData: OLSKTransferDispatchExportInput,
+				OLSKDownloadData: OLSKTransportDispatchExportInput,
 			})]);
 		});
 
@@ -407,34 +407,34 @@ describe('OLSKTransferLauncherFakeItemExportSerialized', function test_OLSKTrans
 
 });
 
-describe('OLSKTransferRecipes', function test_OLSKTransferRecipes() {
+describe('OLSKTransportRecipes', function test_OLSKTransportRecipes() {
 
-	const _OLSKTransferRecipes = function (inputData = {}) {
-		return mod.OLSKTransferRecipes(Object.assign({
+	const _OLSKTransportRecipes = function (inputData = {}) {
+		return mod.OLSKTransportRecipes(Object.assign({
 			ParamWindow: uWindow(),
 			OLSKLocalized: uLocalized,
-			OLSKTransferDispatchImportJSON: (function () {}),
-			OLSKTransferDispatchExportInput: (function () {}),
+			OLSKTransportDispatchImportJSON: (function () {}),
+			OLSKTransportDispatchExportInput: (function () {}),
 			ParamSpecUI: false,
 		}, inputData))
 	};
 
 	it('throws if not object', function () {
 		throws(function () {
-			mod.OLSKTransferRecipes(null);
+			mod.OLSKTransportRecipes(null);
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('throws if ParamSpecUI not boolean', function () {
 		throws(function () {
-			_OLSKTransferRecipes({
+			_OLSKTransportRecipes({
 				ParamSpecUI: null,
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
 
 	it('includes production recipes', function () {
-		deepEqual(_OLSKTransferRecipes().map(function (e) {
+		deepEqual(_OLSKTransportRecipes().map(function (e) {
 			return e.LCHRecipeSignature || e.LCHRecipeName;
 		}), Object.keys(mod).filter(function (e) {
 			return e.match(/Launcher/) && !e.match(/Fake/);
@@ -444,7 +444,7 @@ describe('OLSKTransferRecipes', function test_OLSKTransferRecipes() {
 	context('ParamSpecUI', function () {
 
 		it('includes all recipes', function () {
-			deepEqual(_OLSKTransferRecipes({
+			deepEqual(_OLSKTransportRecipes({
 				ParamSpecUI: true,
 			}).map(function (e) {
 				return e.LCHRecipeSignature || e.LCHRecipeName;

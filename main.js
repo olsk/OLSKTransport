@@ -1,37 +1,37 @@
 const mod = {
 
-	OLSKTransferExportBasename (debug = {}) {
+	OLSKTransportExportBasename (debug = {}) {
 		return (debug.window || window).location.hostname + '-' + (debug.Date || Date).now();
 	},
 
-	OLSKTransferExportJSONFilename (debug = {}) {
-		return this.OLSKTransferExportBasename(debug) + '.json';
+	OLSKTransportExportJSONFilename (debug = {}) {
+		return this.OLSKTransportExportBasename(debug) + '.json';
 	},
 
-	OLSKTransferLauncherFakeItemProxy () {
+	OLSKTransportLauncherFakeItemProxy () {
 		return {
-			LCHRecipeName: 'OLSKTransferLauncherFakeItemProxy',
+			LCHRecipeName: 'OLSKTransportLauncherFakeItemProxy',
 			LCHRecipeCallback () {},
 		};
 	},
 
 	_AlertIfNotValid (text, params) {
 		if (!text.trim()) {
-			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText'));
+			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotFilledAlertText'));
 		}
 
 		if (!text.startsWith('{') || !text.endsWith('}')) {
-			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
+			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText'));
 		}
 
 		try {
-			return params.OLSKTransferDispatchImportJSON(JSON.parse(text));
+			return params.OLSKTransportDispatchImportJSON(JSON.parse(text));
 		} catch {
-			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
+			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText'));
 		}
 	},
 
-	OLSKTransferLauncherItemImportJSON (params) {
+	OLSKTransportLauncherItemImportJSON (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -44,13 +44,13 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
-		if (typeof params.OLSKTransferDispatchImportJSON !== 'function') {
+		if (typeof params.OLSKTransportDispatchImportJSON !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
-			LCHRecipeSignature: 'OLSKTransferLauncherItemImportJSON',
-			LCHRecipeName: params.OLSKLocalized('OLSKTransferLauncherItemImportJSONText'),
+			LCHRecipeSignature: 'OLSKTransportLauncherItemImportJSON',
+			LCHRecipeName: params.OLSKLocalized('OLSKTransportLauncherItemImportJSONText'),
 			async LCHRecipeCallback () {
 				const text = await this.api.LCHReadTextFile({
 					accept: '.json',
@@ -61,7 +61,7 @@ const mod = {
 		};
 	},
 
-	OLSKTransferLauncherItemExportJSON (params) {
+	OLSKTransportLauncherItemExportJSON (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -70,22 +70,22 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
-		if (typeof params.OLSKTransferDispatchExportInput !== 'function') {
+		if (typeof params.OLSKTransportDispatchExportInput !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
-			LCHRecipeSignature: 'OLSKTransferLauncherItemExportJSON',
-			LCHRecipeName: params.OLSKLocalized('OLSKTransferLauncherItemExportJSONText'),
+			LCHRecipeSignature: 'OLSKTransportLauncherItemExportJSON',
+			LCHRecipeName: params.OLSKLocalized('OLSKTransportLauncherItemExportJSONText'),
 			async LCHRecipeCallback () {
-				return this.api.LCHSaveFile(await params.OLSKTransferDispatchExportInput(), mod.OLSKTransferExportJSONFilename({
+				return this.api.LCHSaveFile(await params.OLSKTransportDispatchExportInput(), mod.OLSKTransportExportJSONFilename({
 					window: params.ParamWindow || window,
 				}));
 			},
 		};
 	},
 
-	OLSKTransferLauncherFakeItemImportSerialized (params) {
+	OLSKTransportLauncherFakeItemImportSerialized (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -94,21 +94,21 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
-		if (typeof params.OLSKTransferDispatchImportJSON !== 'function') {
+		if (typeof params.OLSKTransportDispatchImportJSON !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		const _this = this;
 
 		return {
-			LCHRecipeName: 'OLSKTransferLauncherFakeItemImportSerialized',
+			LCHRecipeName: 'OLSKTransportLauncherFakeItemImportSerialized',
 			LCHRecipeCallback () {
 				return mod._AlertIfNotValid(params.ParamWindow.prompt(), params);
 			},
 		};
 	},
 
-	OLSKTransferLauncherFakeItemExportSerialized (params) {
+	OLSKTransportLauncherFakeItemExportSerialized (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -117,26 +117,26 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
-		if (typeof params.OLSKTransferDispatchExportInput !== 'function') {
+		if (typeof params.OLSKTransportDispatchExportInput !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		const _this = this;
 
 		return {
-			LCHRecipeName: 'OLSKTransferLauncherFakeItemExportSerialized',
+			LCHRecipeName: 'OLSKTransportLauncherFakeItemExportSerialized',
 			async LCHRecipeCallback () {
 				return params.ParamWindow.alert(JSON.stringify({
-					OLSKDownloadName: mod.OLSKTransferExportJSONFilename({
+					OLSKDownloadName: mod.OLSKTransportExportJSONFilename({
 						window: params.ParamWindow,
 					}),
-					OLSKDownloadData: await params.OLSKTransferDispatchExportInput(),
+					OLSKDownloadData: await params.OLSKTransportDispatchExportInput(),
 				}));
 			},
 		};
 	},
 
-	OLSKTransferRecipes (params) {
+	OLSKTransportRecipes (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -146,11 +146,11 @@ const mod = {
 		}
 
 		return [
-			mod.OLSKTransferLauncherFakeItemProxy(),
-			mod.OLSKTransferLauncherItemImportJSON(params),
-			mod.OLSKTransferLauncherItemExportJSON(params),
-			mod.OLSKTransferLauncherFakeItemImportSerialized(params),
-			mod.OLSKTransferLauncherFakeItemExportSerialized(params),
+			mod.OLSKTransportLauncherFakeItemProxy(),
+			mod.OLSKTransportLauncherItemImportJSON(params),
+			mod.OLSKTransportLauncherItemExportJSON(params),
+			mod.OLSKTransportLauncherFakeItemImportSerialized(params),
+			mod.OLSKTransportLauncherFakeItemExportSerialized(params),
 		].filter(function (e) {
 			if (params.ParamSpecUI) {
 				return true;

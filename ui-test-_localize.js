@@ -6,7 +6,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		return OLSKTestingLocalized(inputData, OLSKRoutingLanguage);
 	};
 
-	describe(`OLSKTransfer_Localize-${ OLSKRoutingLanguage }`, function () {
+	describe(`OLSKTransport_Localize-${ OLSKRoutingLanguage }`, function () {
 
 		before(function () {
 			return browser.OLSKVisit(kDefaultRoute, {
@@ -14,15 +14,15 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 			});
 		});
 
-		it('localizes OLSKTransferLauncherItemImportJSON', function () {
-			return browser.assert.OLSKLauncherItemText('OLSKTransferLauncherItemImportJSON', uLocalized('OLSKTransferLauncherItemImportJSONText'));
+		it('localizes OLSKTransportLauncherItemImportJSON', function () {
+			return browser.assert.OLSKLauncherItemText('OLSKTransportLauncherItemImportJSON', uLocalized('OLSKTransportLauncherItemImportJSONText'));
 		});
 
-		it('localizes OLSKTransferLauncherItemExportJSON', function () {
-			return browser.assert.OLSKLauncherItemText('OLSKTransferLauncherItemExportJSON', uLocalized('OLSKTransferLauncherItemExportJSONText'));
+		it('localizes OLSKTransportLauncherItemExportJSON', function () {
+			return browser.assert.OLSKLauncherItemText('OLSKTransportLauncherItemExportJSON', uLocalized('OLSKTransportLauncherItemExportJSONText'));
 		});
 
-		describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLauncherItemImportJSON() {
+		describe('OLSKTransportLauncherItemImportJSON', function test_OLSKTransportLauncherItemImportJSON() {
 
 			context('not filled', function () {
 				
@@ -31,10 +31,10 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 				});
 
 				before(function () {
-					return browser.fill('.LCHLauncherFilterInput', 'OLSKTransferLauncherFakeItemImportSerialized');
+					return browser.fill('.LCHLauncherFilterInput', 'OLSKTransportLauncherFakeItemImportSerialized');
 				});
 
-				it('localizes OLSKTransferLauncherItemImportJSONErrorNotFilledAlert', function () {
+				it('localizes OLSKTransportLauncherItemImportJSONErrorNotFilledAlert', function () {
 					return browser.assert.OLSKAlertTextAsync(function () {
 						return browser.OLSKPrompt(function () {
 							return browser.click('.LCHLauncherPipeItem');
@@ -43,7 +43,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 								response: ' ',
 							});
 						});
-					}, uLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText'));
+					}, uLocalized('OLSKTransportLauncherItemImportJSONErrorNotFilledAlertText'));
 				});
 			
 			});
@@ -55,10 +55,10 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 				});
 
 				before(async function () {
-					return browser.fill('.LCHLauncherFilterInput', 'OLSKTransferLauncherFakeItemImportSerialized');
+					return browser.fill('.LCHLauncherFilterInput', 'OLSKTransportLauncherFakeItemImportSerialized');
 				});
 
-				it('localizes OLSKTransferLauncherItemImportJSONErrorNotValidAlert', function () {
+				it('localizes OLSKTransportLauncherItemImportJSONErrorNotValidAlert', function () {
 					return browser.assert.OLSKAlertTextAsync(function () {
 						return browser.OLSKPrompt(function () {
 							return browser.click('.LCHLauncherPipeItem');
@@ -67,7 +67,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 								response: JSON.stringify([]),
 							});
 						});
-					}, uLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
+					}, uLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText'));
 				});
 			
 			});
