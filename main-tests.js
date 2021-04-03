@@ -35,7 +35,7 @@ describe('OLSKTransferExportJSONFilename', function test_OLSKTransferExportJSONF
 
 	it('returns string', function () {
 		const item = Math.random().toString();
-		deepEqual(Object.assign(mod, {
+		deepEqual(Object.assign(Object.assign({}, mod), {
 			OLSKTransferExportBasename: (function () {
 				return item;
 			}),
