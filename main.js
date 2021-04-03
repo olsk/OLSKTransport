@@ -15,6 +15,32 @@ const mod = {
 		};
 	},
 
+	OLSKTransferLauncherItemImportJSON (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof params.OLSKLocalized !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		
+		if (typeof params.OLSKTransferDispatchImportJSON !== 'function') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		const _this = this;
+
+		return {
+			LCHRecipeSignature: 'OLSKTransferLauncherItemImportJSON',
+			LCHRecipeName: params.OLSKLocalized('OLSKTransferLauncherItemImportJSONText'),
+			async LCHRecipeCallback () {
+				return params.OLSKTransferDispatchImportJSON(await this.api.LCHReadTextFile({
+					accept: '.json',
+				}));
+			},
+		};
+	},
+
 	OLSKTransferLauncherFakeItemImportSerialized (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -77,6 +103,7 @@ const mod = {
 
 		return [
 			mod.OLSKTransferLauncherFakeItemProxy(),
+			mod.OLSKTransferLauncherItemImportJSON(params),
 			mod.OLSKTransferLauncherFakeItemImportSerialized(params),
 			mod.OLSKTransferLauncherFakeItemExportSerialized(params),
 		].filter(function (e) {
