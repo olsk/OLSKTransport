@@ -1,5 +1,9 @@
 const mod = {
 
+	OLSKTransferExportBasename (debug = {}) {
+		return (debug.window || window).location.hostname + '-' + (debug.Date || Date).now();
+	},
+
 	OLSKTransferLauncherFakeItemProxy () {
 		return {
 			LCHRecipeName: 'OLSKTransferLauncherFakeItemProxy',

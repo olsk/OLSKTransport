@@ -5,12 +5,31 @@ const mod = require('./main.js');
 const uWindow = function (inputData = {}) {
 	return Object.assign({
 		prompt: (function () {}),
-		location: {
+		alert: (function () {}),
+		location: Object.assign({
 			reload: (function () {}),
-		},
+		}, inputData),
 	}, inputData);
 };
 
+describe('OLSKTransferExportBasename', function test_OLSKTransferExportBasename() {
+
+	it('returns object', function () {
+		const hostname = Math.random().toString();
+		const now = Math.random().toString();
+		deepEqual(mod.OLSKTransferExportBasename({
+			window: uWindow({
+				hostname,
+			}),
+			Date: {
+				now: (function () {
+					return now;
+				}),
+			},
+		}), hostname + '-' + now);
+	});
+
+});
 
 describe('OLSKTransferLauncherFakeItemProxy', function test_OLSKTransferLauncherFakeItemProxy() {
 
