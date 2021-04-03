@@ -75,6 +75,7 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 	const _OLSKTransferLauncherItemImportJSON = function (inputData = {}) {
 		return mod.OLSKTransferLauncherItemImportJSON(Object.assign({
 			OLSKLocalized: uLocalized,
+			ParamWindow: uWindow(),
 			OLSKTransferDispatchImportJSON: (function () {}),
 		}, inputData))
 	}
@@ -89,6 +90,14 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 		throws(function () {
 			_OLSKTransferLauncherItemImportJSON({
 				OLSKLocalized: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamWindow not window', function () {
+		throws(function () {
+			_OLSKTransferLauncherItemImportJSON({
+				ParamWindow: {},
 			});
 		}, /OLSKErrorInputNotValid/);
 	});
@@ -127,6 +136,22 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 			}), [{
 				accept: '.json',
 			}]);
+		});
+
+		it('calls alert if empty', async function () {
+			deepEqual(await _OLSKTransferLauncherItemImportJSON({
+				ParamWindow: uWindow({
+					alert: (function () {
+						return [...arguments];
+					}),
+				}),
+			}).LCHRecipeCallback.apply({
+				api: {
+					LCHReadTextFile: (async function () {
+						return ' ';
+					}),
+				},
+			}), [uLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText')]);
 		});
 
 		it('calls OLSKTransferDispatchImportJSON', async function () {
