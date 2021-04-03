@@ -38,15 +38,23 @@ const mod = {
 			LCHRecipeSignature: 'OLSKTransferLauncherItemImportJSON',
 			LCHRecipeName: params.OLSKLocalized('OLSKTransferLauncherItemImportJSONText'),
 			async LCHRecipeCallback () {
-				const outputData = await this.api.LCHReadTextFile({
+				const text = await this.api.LCHReadTextFile({
 					accept: '.json',
 				});
 
-				if (!outputData.trim()) {
+				if (!text.trim()) {
 					return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText'));
 				}
 
-				return params.OLSKTransferDispatchImportJSON(outputData)
+				if (!text.startsWith('{') || !text.endsWith('}')) {
+					return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
+				}
+
+				try {
+					return params.OLSKTransferDispatchImportJSON(JSON.parse(text));
+				} catch {
+					return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText'));
+				}
 			},
 		};
 	},

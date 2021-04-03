@@ -154,8 +154,42 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 			}), [uLocalized('OLSKTransferLauncherItemImportJSONErrorNotFilledAlertText')]);
 		});
 
+		it('calls alert if parse error', async function () {
+			deepEqual(await _OLSKTransferLauncherItemImportJSON({
+				ParamWindow: uWindow({
+					alert: (function () {
+						return [...arguments];
+					}),
+				}),
+			}).LCHRecipeCallback.apply({
+				api: {
+					LCHReadTextFile: (async function () {
+						return 'alfa';
+					}),
+				},
+			}), [uLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText')]);
+		});
+
+		it('calls alert if not object error', async function () {
+			deepEqual(await _OLSKTransferLauncherItemImportJSON({
+				ParamWindow: uWindow({
+					alert: (function () {
+						return [...arguments];
+					}),
+				}),
+			}).LCHRecipeCallback.apply({
+				api: {
+					LCHReadTextFile: (async function () {
+						return '[]';
+					}),
+				},
+			}), [uLocalized('OLSKTransferLauncherItemImportJSONErrorNotValidAlertText')]);
+		});
+
 		it('calls OLSKTransferDispatchImportJSON', async function () {
-			const item = Math.random().toString();
+			const item = JSON.stringify({
+				[Math.random().toString()]: Math.random().toString(),
+			});
 
 			deepEqual(await _OLSKTransferLauncherItemImportJSON({
 				OLSKTransferDispatchImportJSON: (function () {
@@ -164,10 +198,10 @@ describe('OLSKTransferLauncherItemImportJSON', function test_OLSKTransferLaunche
 			}).LCHRecipeCallback.apply({
 				api: {
 					LCHReadTextFile: (function () {
-						return item
+						return item;
 					}),
 				},
-			}), [item]);
+			}), [JSON.parse(item)]);
 		});
 
 	});
