@@ -1,7 +1,7 @@
 const mod = {
 
 	OLSKTransportExportBasename (debug = {}) {
-		return (debug.window || window).location.hostname + '-' + (debug.Date || Date).now();
+		return (debug.DebugWindow || window).location.hostname + '-' + (debug.DebugDate || Date).now();
 	},
 
 	OLSKTransportExportJSONFilename (debug = {}) {
@@ -15,32 +15,28 @@ const mod = {
 		};
 	},
 
-	_AlertIfNotValid (text, params) {
+	_AlertIfNotValid (text, params, debug = {}) {
 		if (!text.trim()) {
-			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotFilledAlertText'));
+			return (debug.DebugWindow || window).alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotFilledAlertText'));
 		}
 
 		if (!text.startsWith('{') || !text.endsWith('}')) {
-			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText'));
+			return (debug.DebugWindow || window).alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText'));
 		}
 
 		try {
 			return params.OLSKTransportDispatchImportJSON(JSON.parse(text));
 		} catch {
-			return params.ParamWindow.alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText'));
+			return (debug.DebugWindow || window).alert(params.OLSKLocalized('OLSKTransportLauncherItemImportJSONErrorNotValidAlertText'));
 		}
 	},
 
-	OLSKTransportLauncherItemImportJSON (params) {
+	OLSKTransportLauncherItemImportJSON (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
 		if (typeof params.OLSKLocalized !== 'function') {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
-		if (!params.ParamWindow.location) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 		
@@ -56,12 +52,12 @@ const mod = {
 					accept: '.json',
 				});
 
-				return mod._AlertIfNotValid(text, params);
+				return mod._AlertIfNotValid(text, params, debug);
 			},
 		};
 	},
 
-	OLSKTransportLauncherItemExportJSON (params) {
+	OLSKTransportLauncherItemExportJSON (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -78,22 +74,16 @@ const mod = {
 			LCHRecipeSignature: 'OLSKTransportLauncherItemExportJSON',
 			LCHRecipeName: params.OLSKLocalized('OLSKTransportLauncherItemExportJSONText'),
 			async LCHRecipeCallback (inputData) {
-				return this.api.LCHSaveFile(JSON.stringify(inputData || await params.OLSKTransportDispatchExportInput()), mod.OLSKTransportExportJSONFilename({
-					window: params.ParamWindow || window,
-				}));
+				return this.api.LCHSaveFile(JSON.stringify(inputData || await params.OLSKTransportDispatchExportInput()), mod.OLSKTransportExportJSONFilename(debug));
 			},
 		};
 	},
 
-	OLSKTransportLauncherFakeItemImportSerialized (params) {
+	OLSKTransportLauncherFakeItemImportSerialized (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (!params.ParamWindow.location) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
 		if (typeof params.OLSKTransportDispatchImportJSON !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -103,20 +93,16 @@ const mod = {
 		return {
 			LCHRecipeName: 'OLSKTransportLauncherFakeItemImportSerialized',
 			LCHRecipeCallback () {
-				return mod._AlertIfNotValid(params.ParamWindow.prompt(), params);
+				return mod._AlertIfNotValid((debug.DebugWindow || window).prompt(), params);
 			},
 		};
 	},
 
-	OLSKTransportLauncherFakeItemExportSerialized (params) {
+	OLSKTransportLauncherFakeItemExportSerialized (params, debug = {}) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (!params.ParamWindow.location) {
-			throw new Error('OLSKErrorInputNotValid');
-		}
-		
 		if (typeof params.OLSKTransportDispatchExportInput !== 'function') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
@@ -127,10 +113,8 @@ const mod = {
 			LCHRecipeSignature: 'OLSKTransportLauncherFakeItemExportSerialized',
 			LCHRecipeName: 'OLSKTransportLauncherFakeItemExportSerialized',
 			async LCHRecipeCallback (inputData) {
-				return params.ParamWindow.alert(JSON.stringify({
-					OLSKDownloadName: mod.OLSKTransportExportJSONFilename({
-						window: params.ParamWindow,
-					}),
+				return (debug.DebugWindow || window).alert(JSON.stringify({
+					OLSKDownloadName: mod.OLSKTransportExportJSONFilename(debug),
 					OLSKDownloadData: JSON.stringify(inputData || await params.OLSKTransportDispatchExportInput()),
 				}));
 			},

@@ -6,7 +6,6 @@
 		InterfaceLauncherButtonDidClick () {
 			window.Launchlet.LCHSingletonCreate({
 				LCHOptionRecipes: exports.OLSKTransportRecipes({
-					ParamWindow: window,
 					OLSKLocalized: window.OLSKLocalized,
 					OLSKTransportDispatchImportJSON: (function () {}),
 					OLSKTransportDispatchExportInput: (function () {
