@@ -50,6 +50,19 @@ describe('OLSKTransportExportJSONFilename', function test_OLSKTransportExportJSO
 
 });
 
+describe('OLSKTransportExportTXTFilename', function test_OLSKTransportExportTXTFilename() {
+
+	it('returns string', function () {
+		const item = Math.random().toString();
+		deepEqual(Object.assign(Object.assign({}, mod), {
+			OLSKTransportExportBasename: (function () {
+				return item;
+			}),
+		}).OLSKTransportExportTXTFilename(), item + '.txt');
+	});
+
+});
+
 describe('OLSKTransportLauncherFakeItemProxy', function test_OLSKTransportLauncherFakeItemProxy() {
 
 	it('returns object', function () {

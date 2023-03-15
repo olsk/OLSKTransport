@@ -8,6 +8,10 @@ const mod = {
 		return this.OLSKTransportExportBasename(debug) + '.json';
 	},
 
+	OLSKTransportExportTXTFilename (debug = {}) {
+		return this.OLSKTransportExportBasename(debug) + '.txt';
+	},
+
 	OLSKTransportLauncherFakeItemProxy () {
 		return {
 			LCHRecipeName: 'OLSKTransportLauncherFakeItemProxy',
