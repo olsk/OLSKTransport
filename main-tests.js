@@ -449,6 +449,34 @@ describe('OLSKTransportLauncherFakeItemExportSerialized', function test_OLSKTran
 
 });
 
+describe('OLSKTransportFakeExportPlaintext', function test_OLSKTransportFakeExportPlaintext() {
+
+	it('throws if not string', function () {
+		throws(function () {
+			mod.OLSKTransportFakeExportPlaintext(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('calls window.alert', async function () {
+		const OLSKDownloadData = Math.random().toString();
+		const DebugWindow = uWindow({
+			alert: (function () {
+				return [...arguments];
+			}),
+		});
+
+		deepEqual(await mod.OLSKTransportFakeExportPlaintext(OLSKDownloadData, {
+			DebugWindow,
+		}), [JSON.stringify({
+			OLSKDownloadName: mod.OLSKTransportExportTXTFilename({
+				DebugWindow,
+			}),
+			OLSKDownloadData,
+		})]);
+	});
+
+});
+
 describe('OLSKTransportRecipes', function test_OLSKTransportRecipes() {
 
 	const _OLSKTransportRecipes = function (inputData = {}) {

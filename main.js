@@ -125,6 +125,17 @@ const mod = {
 		};
 	},
 
+	OLSKTransportFakeExportPlaintext (inputData, debug = {}) {
+		if (typeof inputData !== 'string') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return (debug.DebugWindow || window).alert(JSON.stringify({
+			OLSKDownloadName: mod.OLSKTransportExportTXTFilename(debug),
+			OLSKDownloadData: inputData,
+		}));
+	},
+
 	OLSKTransportRecipes (params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
